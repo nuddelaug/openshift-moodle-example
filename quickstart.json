@@ -1,0 +1,16 @@
+[
+    {
+        "quickstart": {
+            "id": "9",
+            "name": "Moodle 2.8.1+",
+            "website": "https://moodle.org",
+            "initial_git_url": "https://github.com/nuddelaug/openshift-moodle-example.git",
+            "initial_git_branch": "2.8.1+",
+            "cartridges": ["php-5.4", "postgresql-9"],
+            "summary": "Adminstrative credentials are the same as for the database. Be sure to select the proper version in Branch/Tag when sourcing",
+            "tags": ["php", "moodle", "training", "framework", "instant_app"],
+            "admin_tags": []
+        }
+    }
+
+]

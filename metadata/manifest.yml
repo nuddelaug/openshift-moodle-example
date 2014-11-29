@@ -1,0 +1,58 @@
+Name: Moodle
+Cartridge-Short-Name: Moodle
+Cartridge-Version: 1.0.1
+Compatible-Versions:
+  - 1.0.1
+Cartridge-Vendor: redhat
+Display-Name: Moodle 2.8.1+
+Description: "Moodle is a learning platform designed to provide educators, administrators and learners with a single robust, secure and integrated system to create personalised learning environments"
+Version: '2.8.1+'
+Versions:
+  - '2.8.1+'
+License: "GPLv3"
+License-Url: http://www.gnu.org/licenses/gpl-3.0.txt
+Vendor: Moodle Group
+Categories:
+  - service
+  - php
+  - web_framework
+Website: https://moodle.org
+Help-Topics:
+  "Developer Center": https://docs.moodle.org/28/en/Main_page
+Cart-Data:
+  - Key: OPENSHIFT_MOODLE_VERSION
+    Type: environment
+    Description: "How environment variable should be used"
+Provides:
+  - moodle-2.8.1+
+  - moodle
+Subscribes:
+  set-db-connection-info:
+    Type: "NET_TCP:db:connection-info"
+    Required: false
+  set-mysql-connection-info:
+    Type: "NET_TCP:db:mysql"
+    Required : false
+  set-postgres-connection-info:
+    Type: "NET_TCP:db:postgres"
+    Required : false
+  set-doc-url:
+    Type: "STRING:urlpath"
+    Required : false
+Scaling:
+  Min: 1
+  Max: -1
+Group-Overrides:
+  - components:
+    - moodle-2.8.1+
+    - web_proxy
+Endpoints:
+  - Private-IP-Name:   IP1
+    Private-Port-Name: HTTP_PORT
+    Private-Port:      8080
+    Public-Port-Name:  PROXY_HTTP_PORT
+    Mappings:
+      - Frontend:      "/front"
+        Backend:       "/back"
+Additional-Control-Actions:
+  - threaddump

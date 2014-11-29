@@ -1,0 +1,34 @@
+#!/bin/bash
+# This deploy hook gets executed after dependencies are resolved and the
+# build hook has been run but before the application has been started back
+# up again.  This script gets executed directly, so it could be python, php,
+# ruby, etc.
+
+dest_dir=${OPENSHIFT_DATA_DIR}current
+
+current_version=$(cat ${OPENSHIFT_BUILD_DEPENDENCIES_DIR}.current_version)
+install_dir=${OPENSHIFT_BUILD_DEPENDENCIES_DIR}${current_version}
+hooks_dir="${HOME}$(dirname $0)"
+
+if [ ! -d "${dest_dir}" ]; then
+  mkdir -p $dest_dir
+  cp -rf ${install_dir}/* ${dest_dir}/
+fi
+
+# Replace the php/ directory with provided clean Moodle installation
+#
+if [ -d ${OPENSHIFT_REPO_DIR}php ]; then
+  rm -rf ${OPENSHIFT_REPO_DIR}php
+fi
+ln -sf ${dest_dir} ${OPENSHIFT_REPO_DIR}php
+
+pushd ${install_dir} >/dev/null
+
+if ! [ -f ${OPENSHIFT_DATA_DIR}/current/config.php ] ; then 
+    pushd ${OPENSHIFT_DATA_DIR}/current >/dev/null
+    nohup php admin/cli/install.php --lang=en --wwwroot="http://${OPENSHIFT_APP_DNS}" --dataroot=${OPENSHIFT_DATA_DIR} --dbtype=pgsql --dbname=${OPENSHIFT_APP_NAME} --dbuser=${OPENSHIFT_POSTGRESQL_DB_USERNAME} --dbpass=${OPENSHIFT_POSTGRESQL_DB_PASSWORD} --dbport=${OPENSHIFT_POSTGRESQL_DB_PORT} --dbhost=${OPENSHIFT_POSTGRESQL_DB_HOST} --fullname=${OPENSHIFT_APP_NAME} --shortname=${OPENSHIFT_APP_NAME} --adminuser=${OPENSHIFT_POSTGRESQL_DB_USERNAME} --adminpass=${OPENSHIFT_POSTGRESQL_DB_PASSWORD} --agree-license --non-interactive &
+    popd >/dev/null
+fi
+
+popd >/dev/null
+
