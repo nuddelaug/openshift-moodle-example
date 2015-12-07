@@ -10,14 +10,18 @@ Create an account at https://www.openshift.com and install the client tools (run
 
 Create a php-5.4 application (you can call your application whatever you want)
 
-    rhc app create moodle php-5.4 postgresql9.2 --from-code=http://openshift01.example.com:81/lang/openshift-moodle-example.git
+    rhc app create moodle php-5.4 postgresql9.2 --from-code=https://github.com/nuddelaug/openshift-moodle-example.git
 
 That's it, you can now checkout your application at:
 
     http://moodle-$yournamespace.rhcloud.com
 
-You'll be prompted to set an admin password and name your WordPress site the first time you visit this
-page.
+Moodle is being setup already during the deployment phase so ensure you'll update the items of interesst:
+
+    * fullname of your site 
+    * shortname of your site
+
+the default administrative credentials equal the Database credentials. Please ensure to create your own administrative User.
 
 Notes
 =====
