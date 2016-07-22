@@ -10,7 +10,7 @@ Create an account at https://www.openshift.com and install the client tools (run
 
 Create a php-5.4 application (you can call your application whatever you want)
 
-    rhc app create moodle php-5.4 postgresql9.2 --from-code=https://github.com/nuddelaug/openshift-moodle-example.git
+    rhc app create moodle php-5.4 postgresql-9.2 --from-code=https://github.com/nuddelaug/openshift-moodle-example.git
 
 That's it, you can now checkout your application at:
 
